@@ -1,4 +1,7 @@
 import 'dart:async';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:location/location.dart';
+
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_beacon/flutter_beacon.dart';
@@ -18,6 +21,7 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   final NotificationService notificationService = NotificationService();
+  final Location location = Location();
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +40,6 @@ class MyApp extends StatelessWidget {
 
   /// 블루투스, 위치, 알림 권한 실행하기
   Future<void> initializeApp() async {
-
     // Bluetooth 스캔 권한 확인
     var bluetoothScanStatus = await Permission.bluetoothScan.status;
     if (!bluetoothScanStatus.isGranted) {
@@ -57,7 +60,17 @@ class MyApp extends StatelessWidget {
 
     await notificationService.initNotification();
 
-    // Bluetooth 상태 확인 필요
+    // 블루투스가 켜져있지 않을경우, 활성화 시키도록 팝업창 띄우기
+    var subscription = FlutterBluePlus.adapterState.listen((state) async {
+      if (state == BluetoothAdapterState.off) {
+        await FlutterBluePlus.turnOn();
+      }
+    });
+
+    // 위치 비활성화인 경우, 알림창 띄우기
+    bool _isLocationServiceEnabled = await location.serviceEnabled();
+    if (!_isLocationServiceEnabled) {
+      _isLocationServiceEnabled = await location.requestService();
+    }
   }
 }
-

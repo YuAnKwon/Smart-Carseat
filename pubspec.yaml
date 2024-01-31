@@ -39,6 +39,8 @@ dependencies:
   flutter_local_notifications: ^14.1.1
   flutter_beacon: ^0.5.1
   wakelock: ^0.6.2
+  flutter_blue_plus: ^1.31.13
+  location: ^5.0.3
 
 dev_dependencies:
   flutter_test:

@@ -1,6 +1,6 @@
 # carseat
 
-A new Flutter project.
+스마트 카시트 ver2
 
 ## Getting Started
 

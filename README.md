@@ -2,6 +2,7 @@
 
 스마트 카시트 ver2
 
+아두이노 + 앱
 ## Getting Started
 
 This project is a starting point for a Flutter application.
